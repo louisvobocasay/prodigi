@@ -5,10 +5,12 @@ import {
   CoreMediaEntity,
   CoreMediaFindService,
   CoreProductsFindService,
-  CoreSharedService
+  CoreSharedService,
+  CoreUserWishlistFindService,
 } from '@online-festival/core';
 import { Response } from 'express';
-import { RequestContext } from '../../../../models';
+import { RequestContext, UserContext } from '../../../../models';
+import { VGetWishlistedProductsDto } from '../../dto';
 import { VGetProductsDto } from '../../dto/get-products.dto';
 @Injectable()
 export class ProductsFindService extends CoreSharedService {
@@ -19,6 +21,7 @@ export class ProductsFindService extends CoreSharedService {
     private readonly coreProductsFindService: CoreProductsFindService,
     private readonly coreMediaFindService: CoreMediaFindService,
     private readonly coreStorageUploadService: CoreHelperStorageUploadService,
+    private readonly coreUserWishlistFindService: CoreUserWishlistFindService,
   ) {
     super();
   }
@@ -37,7 +40,7 @@ export class ProductsFindService extends CoreSharedService {
 
     return images;
   }
-  
+
   async findProducts(
     requestContext: RequestContext,
     queries: CoreBaseParameter<VGetProductsDto>,
@@ -61,6 +64,32 @@ export class ProductsFindService extends CoreSharedService {
 
     for (const product of data) {
       product['imageUrls'] = await this._populateImages(product.id);
+    }
+
+    return super.mapResponse(data, response, {
+      ...queries.pagination,
+      totalRecords: totalRecords,
+    });
+  }
+
+  async findWishlistedProducts(
+    requestContext: RequestContext,
+    userContext: UserContext,
+    queries: CoreBaseParameter<VGetWishlistedProductsDto>,
+    response: Response,
+  ) {
+    const { data, totalRecords } =
+      await this.coreUserWishlistFindService.findUserWishlistedProducts({
+        condition: {
+          title: queries.condition.title,
+          createdBy: userContext.id,
+        },
+        pagination: queries.pagination,
+        sort: queries.sort,
+      });
+
+    for (const product of data) {
+      product['imageUrls'] = await this._populateImages(product.productId);
     }
 
     return super.mapResponse(data, response, {
