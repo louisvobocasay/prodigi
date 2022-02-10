@@ -43,4 +43,10 @@ export class ProductsUpdateService extends CoreSharedService {
     );
     return await this.coreProductsUpdateService.updateProduct(id, mergedInfo);
   }
+
+  async increaseViewerShip(requestContext: RequestContext, id: number) {
+    const product =
+      await this.coreProductsFindOneService.findAndValidateProductById(id);
+    return this.coreProductsUpdateService.updateViwershipById(product.id);
+  }
 }

@@ -19,4 +19,15 @@ export class CoreProductsUpdateService extends CoreSharedService {
   updateProduct(id: number, product: CoreProductEntity) {
     return this.repo.update({ id }, product);
   }
+
+  updateViwershipById(id: number) {
+    return this.repo
+      .createQueryBuilder('p')
+      .update()
+      .set({
+        viewershipNumber: () => `viewership_number + 1`,
+      })
+      .where('id = :id', { id })
+      .execute();
+  }
 }
