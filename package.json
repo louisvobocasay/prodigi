@@ -58,6 +58,7 @@
     "@nestjs/testing": "^8.0.0",
     "@types/bull": "^3.15.7",
     "@types/cache-manager": "^3.4.2",
+    "@types/cache-manager-redis-store": "^2.0.1",
     "@types/express": "^4.17.13",
     "@types/jest": "27.0.2",
     "@types/lodash": "^4.14.178",

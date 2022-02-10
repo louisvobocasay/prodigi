@@ -18,12 +18,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "online-festival/core/core": [
-        "libs/core/src"
-      ],
-      "online-festival/core/core/*": [
-        "libs/core/src/*"
-      ]
+      "@online-festival/core": ["libs/core/src"],
+      "@online-festival/core/*": ["libs/core/src/*"]
     }
   }
 }

@@ -1,0 +1,6 @@
+export enum CoreETime {
+  A_DAY_IN_SECOND = 86400,
+  THIRTY_MINUTES = 1800,
+  FIVE_MINUTES = 300,
+  ONE_MINUTE = 60,
+}

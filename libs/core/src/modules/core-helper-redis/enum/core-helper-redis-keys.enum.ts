@@ -1,0 +1,4 @@
+export enum CoreEHelperRedisKeys {
+  USER_SESSION = 'USER_SESSION',
+  USER_REFRESH_SESSION = 'USER_REFRESH_SESSION',
+}
