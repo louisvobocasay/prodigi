@@ -10,3 +10,5 @@ export * from './utils';
 
 export * from './modules/core-helper-redis';
 export * from './modules/core-helper-storage';
+
+export * from './modules/core-users';

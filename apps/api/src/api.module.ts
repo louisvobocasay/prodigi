@@ -4,6 +4,7 @@ import { ApiService } from './api.service';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
 import { OnlineFestivalCoreModule } from '@online-festival/core';
+import { UsersModule } from './modules/users/users.module';
 
 const envFilePath: string = path.join(
   __dirname,
@@ -20,6 +21,7 @@ const envFilePath: string = path.join(
       envFilePath: envFilePath,
       isGlobal: true,
     }),
+    UsersModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],
