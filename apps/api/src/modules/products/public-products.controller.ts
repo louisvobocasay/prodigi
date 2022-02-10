@@ -15,6 +15,7 @@ import { ParamParserDecorator, RequestDecorator } from '../../decorators';
 import { RequestContext } from '../../models';
 import { ResponseProductsDto } from './dto';
 import { VGetProductsDto } from './dto/get-products.dto';
+import { ProductsFindOneService } from './services/products-find-one/products-find-one.service';
 import { ProductsFindService } from './services/products-find/products-find.service';
 import { ProductsUpdateService } from './services/products-update/products-update.service';
 @Controller('products/public')
@@ -26,7 +27,8 @@ export class PublicProductsController {
   constructor(
     private readonly productsFindService: ProductsFindService,
     private readonly productsUpdateService: ProductsUpdateService,
-  ) {}
+    private readonly productsFindOneService: ProductsFindOneService,
+    ) {}
 
   @Get()
   @ApiResponse({ type: ResponseProductsDto, isArray: true })
@@ -42,6 +44,16 @@ export class PublicProductsController {
       queries,
       response,
     );
+  }
+
+  @Get(':id/viewrship')
+  @ApiResponse({ type: Number })
+  @ApiOperation({ summary: 'Get product viewership number' })
+  getProductViewerShip(
+    @RequestDecorator() requestContext: RequestContext,
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    return this.productsFindOneService.getProductViewership(requestContext, id);
   }
 
   @Put(':id/viewrship')
