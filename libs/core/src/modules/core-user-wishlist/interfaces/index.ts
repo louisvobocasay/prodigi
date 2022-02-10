@@ -1,0 +1,1 @@
+export * from './core-user-wishlist-filter-condition.interface';

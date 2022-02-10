@@ -6,7 +6,9 @@ import {
   CoreProductsCreateService,
   CoreProductsFindOneService,
   CoreSharedService,
-  CryptoUtil,
+  CoreUserWishlistCreateService,
+  CoreUserWishlistFindOneService,
+  CryptoUtil
 } from '@online-festival/core';
 import { EntityManager, getConnection } from 'typeorm';
 import { RequestContext, UserContext } from '../../../../models';
@@ -24,6 +26,8 @@ export class ProductsCreateService extends CoreSharedService {
     private readonly coreMediaFindService: CoreMediaFindService,
     private readonly coreMediaUpdateService: CoreMediaUpdateService,
     private readonly coreStorageUploadService: CoreHelperStorageUploadService,
+    private readonly coreUserWishlistFindOneService: CoreUserWishlistFindOneService,
+    private readonly coreUserWishlistCreateService: CoreUserWishlistCreateService,
   ) {
     super();
   }
@@ -75,5 +79,24 @@ export class ProductsCreateService extends CoreSharedService {
       });
       return createdProduct;
     });
+  }
+
+  async addProductToWishlist(
+    requestContext: RequestContext,
+    userContext: UserContext,
+    id: number,
+  ) {
+    await this.coreProductsFindOneService.findAndValidateProductById(id);
+    await this.coreUserWishlistFindOneService.findAndCheckDuplicationWishlistedProduct(
+      userContext.id,
+      id,
+    );
+
+    return this.coreUserWishlistCreateService.createUserWishlist(
+      userContext.id,
+      id,
+      requestContext.ipAddress,
+      requestContext.userAgent,
+    );
   }
 }

@@ -3,6 +3,7 @@ import {
   CoreHelperStorageModule,
   CoreMediaModule,
   CoreProductsModule,
+  CoreUserWishlistModule,
 } from '@online-festival/core';
 import { AdminProductsController } from './admin-products.controller';
 import { ProductsController } from './products.controller';
@@ -13,7 +14,12 @@ import { ProductsFindService } from './services/products-find/products-find.serv
 import { ProductsUpdateService } from './services/products-update/products-update.service';
 
 @Module({
-  imports: [CoreHelperStorageModule, CoreProductsModule, CoreMediaModule],
+  imports: [
+    CoreHelperStorageModule,
+    CoreProductsModule,
+    CoreMediaModule,
+    CoreUserWishlistModule,
+  ],
   controllers: [
     ProductsController,
     AdminProductsController,

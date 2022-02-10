@@ -16,3 +16,4 @@ export * from './modules/core-brands';
 export * from './modules/core-media';
 export * from './modules/core-product-types';
 export * from './modules/core-products';
+export * from './modules/core-user-wishlist';
