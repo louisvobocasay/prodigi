@@ -97,4 +97,17 @@ export class ProductsFindService extends CoreSharedService {
       totalRecords: totalRecords,
     });
   }
+
+  async getMostWishlistedAndViewerProducts(
+    requestContext: RequestContext,
+    userContext: UserContext,
+  ) {
+    const products =
+      await this.coreProductsFindService.findMostWishlistedAndViewerProducts();
+    for (const product of products) {
+      product['imageUrls'] = await this._populateImages(product.productId);
+    }
+
+    return products;
+  }
 }

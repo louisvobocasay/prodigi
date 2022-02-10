@@ -91,23 +91,25 @@ export class CoreProductsFindService extends CoreSharedFindService {
 
     const totalRecords: number = await queryBuilder.getCount();
 
-    queryBuilder.select(super.mapFieldToCamelCase([
-      'p.id',
-      'p.created_at',
-      'p.updated_at',
-      'p.created_by',
-      'p.updated_by',
-      'p.title',
-      'p.code',
-      'p.description',
-      'p.brand_id',
-      'p.product_type_id',
-      'p.price',
-      'p.discount',
-      'p.viewership_number',
-      'p.quantity',
-      'p.is_active'
-    ]),);
+    queryBuilder.select(
+      super.mapFieldToCamelCase([
+        'p.id',
+        'p.created_at',
+        'p.updated_at',
+        'p.created_by',
+        'p.updated_by',
+        'p.title',
+        'p.code',
+        'p.description',
+        'p.brand_id',
+        'p.product_type_id',
+        'p.price',
+        'p.discount',
+        'p.viewership_number',
+        'p.quantity',
+        'p.is_active',
+      ]),
+    );
     return <CoreFilterResultInterface<CoreProductEntity>>{
       totalRecords,
       data: await super.paginateFromQueryBuilderWithoutResponse(
@@ -116,5 +118,26 @@ export class CoreProductsFindService extends CoreSharedFindService {
         [sort || ['p.title', 'ASC']],
       ),
     };
+  }
+
+  findMostWishlistedAndViewerProducts() {
+    const query: string = `
+    with cte(product_id, wishlisted_count, viewership_number)
+    as (
+        select id, 0 as wishlisted_count,viewership_number
+        from public.products
+        UNION all
+        select product_id, count(created_by) as wishlisted_count, 0 as viewership_number
+        from public.user_wishlist
+        group by product_id
+    )
+
+    select product_id as "id",p.title as "title", coalesce(sum(wishlisted_count), 0) as "wishlistedCount", coalesce(sum(cte.viewership_number),0) as "viewershipNumber"
+    from cte
+    join public.products p on p.id = cte.product_id
+    group by product_id,p.title
+    order by 1, 2
+    `;
+    return this.repo.query(query);
   }
 }

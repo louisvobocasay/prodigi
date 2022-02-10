@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -10,12 +11,22 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { RequestDecorator, UserContextDecorator } from '../../decorators';
 import { RequestContext, UserContext } from '../../models';
 import { VCustomOperation } from '../../models/custom-operation.dto';
-import { VCreateProductDto } from './dto';
+import {
+  ResponseMostWishlistedViewershipProductDto,
+  VCreateProductDto,
+} from './dto';
 import { ProductsCreateService } from './services/products-create/products-create.service';
+import { ProductsFindService } from './services/products-find/products-find.service';
 import { ProductsUpdateService } from './services/products-update/products-update.service';
 
 @Controller('admin/products')
@@ -27,9 +38,28 @@ export class AdminProductsController {
    *
    */
   constructor(
+    private readonly productFindService: ProductsFindService,
     private readonly productCreateService: ProductsCreateService,
     private readonly productUpdateService: ProductsUpdateService,
   ) {}
+
+  @Get()
+  @ApiResponse({
+    type: ResponseMostWishlistedViewershipProductDto,
+    isArray: true,
+  })
+  @ApiOperation({
+    summary: 'Api get most wish listed product and most viewed product',
+  })
+  analyzeProducts(
+    @RequestDecorator() requestContext: RequestContext,
+    @UserContextDecorator() userContext: UserContext,
+  ) {
+    return this.productFindService.getMostWishlistedAndViewerProducts(
+      requestContext,
+      userContext,
+    );
+  }
 
   @Post()
   @HttpCode(HttpStatus.NO_CONTENT)
