@@ -1,11 +1,6 @@
-import {
-  Controller, UseGuards
-} from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiBearerAuth, ApiTags
-} from '@nestjs/swagger';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('products')
 @ApiTags('Product Module')
 @ApiBearerAuth()
