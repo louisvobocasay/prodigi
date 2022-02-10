@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
 import { OnlineFestivalCoreModule } from '@online-festival/core';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 const envFilePath: string = path.join(
   __dirname,
@@ -22,6 +23,7 @@ const envFilePath: string = path.join(
       isGlobal: true,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],
