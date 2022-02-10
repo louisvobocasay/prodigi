@@ -45,4 +45,22 @@ export class AdminProductsController {
       payload,
     );
   }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBody({ type: VCustomOperation, isArray: true })
+  @ApiOperation({ summary: 'Update product information partially' })
+  updateProduct(
+    @RequestDecorator() requestContext: RequestContext,
+    @UserContextDecorator() userContext: UserContext,
+    @Body() patch: VCustomOperation[],
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    return this.productUpdateService.updateProduct(
+      requestContext,
+      userContext,
+      id,
+      patch,
+    );
+  }
 }

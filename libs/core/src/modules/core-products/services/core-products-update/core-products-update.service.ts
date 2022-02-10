@@ -16,4 +16,7 @@ export class CoreProductsUpdateService extends CoreSharedService {
     super();
   }
 
+  updateProduct(id: number, product: CoreProductEntity) {
+    return this.repo.update({ id }, product);
+  }
 }
