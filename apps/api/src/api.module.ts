@@ -7,6 +7,7 @@ import { OnlineFestivalCoreModule } from '@online-festival/core';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
+import { ProductsModule } from './modules/products/products.module';
 
 const envFilePath: string = path.join(
   __dirname,
@@ -26,6 +27,7 @@ const envFilePath: string = path.join(
     UsersModule,
     AuthModule,
     MediaModule,
+    ProductsModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],
