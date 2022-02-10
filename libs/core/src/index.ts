@@ -12,3 +12,6 @@ export * from './modules/core-helper-redis';
 export * from './modules/core-helper-storage';
 
 export * from './modules/core-users';
+export * from './modules/core-brands';
+export * from './modules/core-media';
+export * from './modules/core-product-types';
