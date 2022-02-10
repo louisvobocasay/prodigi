@@ -31,6 +31,8 @@ import {
 } from './dto';
 import { ProductsCreateService } from './services/products-create/products-create.service';
 import { ProductsFindService } from './services/products-find/products-find.service';
+import { ProductsUpdateService } from './services/products-update/products-update.service';
+
 @Controller('products')
 @ApiTags('Product Module')
 @ApiBearerAuth()
@@ -42,6 +44,7 @@ export class ProductsController {
   constructor(
     private readonly productsFindService: ProductsFindService,
     private readonly productsCreateService: ProductsCreateService,
+    private readonly productsUpdateService: ProductsUpdateService,
   ) {}
 
   @Get()
@@ -71,6 +74,21 @@ export class ProductsController {
     @Param('id', new ParseIntPipe()) id: number,
   ) {
     return this.productsCreateService.addProductToWishlist(
+      requestContext,
+      userContext,
+      id,
+    );
+  }
+
+  @Delete(':id/wishlist')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Remove product from wishlist' })
+  removeFromWishlist(
+    @RequestDecorator() requestContext: RequestContext,
+    @UserContextDecorator() userContext: UserContext,
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    return this.productsUpdateService.removeProductFromWishlist(
       requestContext,
       userContext,
       id,
