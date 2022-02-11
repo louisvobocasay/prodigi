@@ -1,48 +1,200 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Project structure
+online-festival-fullservices is built as a monorepo. core is a library interacts directly with database. Api app calls provided methods from core.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+```
+|--apps
+    |--api
+        |--src
+        |   |--constants
+        |   |--decorators
+        |   |--env
+        |   |--guards
+        |   |--interceptors
+        |   |--models
+        |   |--modules
+        |   |   |--auth
+        |   |   |--media
+        |   |   |   |--dto
+        |   |   |   |--enum
+        |   |   |   |--interfaces
+        |   |   |   |--services
+        |   |   |       |--media-upload
+        |   |   |   |--media.controller.ts
+        |   |   |   |--media.module.ts
+        |   |   |--products
+        |   |   |   |--dto
+        |   |   |   |--enum
+        |   |   |   |--interfaces
+        |   |   |   |--services
+        |   |   |   |   |--products-create
+        |   |   |   |   |--products-find
+        |   |   |   |   |--products-find-one
+        |   |   |   |   |--products-update
+        |   |   |   |--admin-products.controller.ts
+        |   |   |   |--products.controller.ts
+        |   |   |   |--public-products.controller.ts
+        |   |   |   |--products.module.ts
+        |   |   |--users
+        |   |   |   |--dto
+        |   |   |   |--enum
+        |   |   |   |--interfaces
+        |   |   |   |--services
+        |   |   |   |   |--users-create
+        |   |   |   |   |--users-find
+        |   |   |   |   |--users-find-one
+        |   |   |   |   |--users-update
+        |   |   |   |--admin-users.controller.ts
+        |   |   |   |--users.controller.ts
+        |   |   |   |--public-users.controller.ts
+        |   |   |   |--users.module.ts
+        |   |--pipes
+        |   |--app.controller.ts
+        |   |--app.module.ts
+        |   |--app.service.ts
+        |   |--main.ts
+        |--test
+|--libs
+|   |--core
+|   |   |--src
+|   |   |   |--constants
+|   |   |   |--env
+|   |   |   |--filters
+|   |   |   |--i18n
+|   |   |   |--mirgrations
+|   |   |   |--models
+|   |   |   |--modules
+|   |   |   |   |--core-brands
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-brands-create
+|   |   |   |   |   |   |--core-brands-find
+|   |   |   |   |   |   |--core-brands-find-one
+|   |   |   |   |   |   |--core-brands-update
+|   |   |   |   |   |--core-brands.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-helper-redis
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--core-helper-redis.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-helper-storage
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--providers
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-helper-storage-base
+|   |   |   |   |   |   |--core-helper-storage-upload
+|   |   |   |   |   |--core-helper-storage.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-media
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-media-create
+|   |   |   |   |   |   |--core-media-find
+|   |   |   |   |   |   |--core-media-find-one
+|   |   |   |   |   |   |--core-media-update
+|   |   |   |   |   |--core-media.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-product-types
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-product-types-find
+|   |   |   |   |   |   |--core-product-types-find-one
+|   |   |   |   |   |   |--core-product-types-update
+|   |   |   |   |   |--core-product-types.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-products
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-products-create
+|   |   |   |   |   |   |--core-products-find
+|   |   |   |   |   |   |--core-products-find-one
+|   |   |   |   |   |   |--core-products-update
+|   |   |   |   |   |--core-products.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-user-wishlist
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-user-wishlist-create
+|   |   |   |   |   |   |--core-user-wishlist-find
+|   |   |   |   |   |   |--core-user-wishlist-find-one
+|   |   |   |   |   |   |--core-user-wishlist-update
+|   |   |   |   |   |--core-user-wishlist.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |   |--core-users
+|   |   |   |   |   |--entities
+|   |   |   |   |   |--enum
+|   |   |   |   |   |--interfaces
+|   |   |   |   |   |--services
+|   |   |   |   |   |   |--core-users-create
+|   |   |   |   |   |   |--core-users-find
+|   |   |   |   |   |   |--core-users-find-one
+|   |   |   |   |   |   |--core-users-update
+|   |   |   |   |   |--core-users.module.ts
+|   |   |   |   |   |--index.ts
+|   |   |   |--pipes
+|   |   |   |--services
+|   |   |   |--utils
+|   |   |   |--core.module.ts
+|   |   |   |--core.service.ts
+|   |   |   |--index.ts
+```
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Environment installation 
+### MacOS
 
-## Description
+#### Redis
+Installation is simpler using Homebrew. Run:
+```
+$ brew install redis
+```
+Then run
+```
+$ brew services start redis
+```
+To make Redis start automatically, and restart when the computer reboots. You can also start it manually using:
+```
+$ redis-server /usr/local/etc/redis.conf
+```
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+#### On Linux Ubuntu
+You'll need to run:
+```
+$ sudo apt-get install redis-server
+```
 
+`Once it’s started, Redis listens on port 6379` 
 ## Installation
 
 ```bash
 $ npm install
 ```
 
+`Project also needs to install PostgreSQL. Installation link: https://www.postgresqltutorial.com/install-postgresql-macos/`
+
+
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ npm run start or yarn install
+
+# build core before starting development or build
+$ npm run build core
 
 # watch mode
-$ npm run start:dev
+$ npm run api
 
-# production mode
-$ npm run start:prod
 ```
 
 ## Test
@@ -58,16 +210,3 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

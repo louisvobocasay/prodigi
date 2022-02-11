@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MediaUploadService } from './medias-upload.service';
+import { MediaUploadService } from './media-upload.service';
 
-describe('MediasUploadService', () => {
+describe('MediaUploadService', () => {
   let service: MediaUploadService;
 
   beforeEach(async () => {
